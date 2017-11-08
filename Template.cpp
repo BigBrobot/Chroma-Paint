@@ -34,12 +34,12 @@ typedef RZRESULT(*UNREGISTEREVENTNOTIFICATION)(void);
 typedef RZRESULT(*QUERYDEVICE)(RZDEVICEID DeviceId, ChromaSDK::DEVICE_INFO_TYPE &DeviceInfo);
 char szClassName[] = "Windows App";
 
-WNDCLASSEX wincl;
 const HWND window2 = GetForegroundWindow();
-HWND hwnd = CreateWindowEx(0, "WindowsApp", "Chroma Paint", WS_SYSMENU | WS_MINIMIZEBOX, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, HWND_DESKTOP, NULL, NULL, NULL);
+COLORREF Laptop = WHITE;
 HWND test = GetForegroundWindow();
+BOOL LaptopMode = FALSE;
 COLORREF canvas[48] = {BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK};
-COLORREF clear[48] = { BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK };
+COLORREF clear[48] = {BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK };
 int red[144];
 int green[144];
 int blue[144];
@@ -275,6 +275,114 @@ BOOL My_Chroma_Implementation::example_keyboard() {
 	HWND Window = GetForegroundWindow();
 	if (window2 == Window) {
 		//RZRESULT Result_Keyboard = CreateKeyboardEffect(ChromaSDK::Keyboard::CHROMA_CUSTOM, &Example_keyboard_effect, nullptr);
+		if (GetKeyState(VK_F8) < 0)
+		{
+			Sleep(500);
+			if (LaptopMode == TRUE) {
+				LaptopMode = FALSE;
+				cout << "\n\nLaptop Mode Disabled.";
+				Laptop = WHITE;
+				set = 27;
+				for (set; set < 37; set++) {
+					canvas[set] = colour;
+				}set = 1;
+			}
+			else {
+				LaptopMode = TRUE;
+				cout << "\n\nLaptop Mode Enabled, use the numbers above the main keyboard to select colours, zero is the eraser and\nthe '-' key is to cycle through the menus.";
+				Laptop = GREEN;
+			}
+		}
+		if (LaptopMode == TRUE) {
+			canvas[36] = BLACK;
+			canvas[27] = numpad1[menu];
+			canvas[28] = numpad2[menu];
+			canvas[29] = numpad3[menu];
+			canvas[30] = numpad4[menu];
+			canvas[31] = numpad5[menu];
+			canvas[32] = numpad6[menu];
+			canvas[33] = numpad7[menu];
+			canvas[34] = numpad8[menu];
+			canvas[35] = numpad9[menu];
+			if (GetKeyState(VK_OEM_MINUS) < 0 && LaptopMode == TRUE)
+			{
+				Sleep(500);
+				menu = menu++;
+			}
+			if (GetKeyState('1') < 0)
+				if (GetKeyState(VK_LMENU) < 0) {
+					numpad1[menu] = RGB(r, g, b);
+				}
+				else {
+					colour = numpad1[menu];
+				}
+			if (GetKeyState('2') < 0)
+				if (GetKeyState(VK_LMENU) < 0) {
+					numpad2[menu] = RGB(r, g, b);
+				}
+				else {
+					colour = numpad2[menu];
+				}
+			if (GetKeyState('3') < 0)
+				if (GetKeyState(VK_LMENU) < 0) {
+					numpad3[menu] = RGB(r, g, b);
+				}
+				else {
+					colour = numpad3[menu];
+				}
+			if (GetKeyState('4') < 0)
+				if (GetKeyState(VK_LMENU) < 0) {
+					numpad4[menu] = RGB(r, g, b);
+				}
+				else {
+					colour = numpad4[menu];
+				}
+			if (GetKeyState('5') < 0)
+				if (GetKeyState(VK_LMENU) < 0) {
+					numpad5[menu] = RGB(r, g, b);
+				}
+				else {
+					colour = numpad5[menu];
+				}
+			if (GetKeyState('6') < 0)
+				if (GetKeyState(VK_LMENU) < 0) {
+					numpad6[menu] = RGB(r, g, b);
+				}
+				else {
+					colour = numpad6[menu];
+				}
+			if (GetKeyState('7') < 0)
+				if (GetKeyState(VK_LMENU) < 0) {
+					numpad7[menu] = RGB(r, g, b);
+				}
+				else {
+					colour = numpad7[menu];
+				}
+			if (GetKeyState('8') < 0)
+			{
+				if (GetKeyState(VK_LMENU) < 0) {
+					numpad8[menu] = RGB(r, g, b);
+				}
+				else {
+					colour = numpad8[menu];
+				}
+			}
+			if (GetKeyState('9') < 0)
+				if (GetKeyState(VK_LMENU) < 0) {
+					numpad9[menu] = RGB(r, g, b);
+				}
+				else {
+					colour = numpad9[menu];
+				}
+			if (GetKeyState('0') < 0)
+			{
+				colour = BLACK;
+			}
+
+			}
+			if (GetKeyState(VK_OEM_MINUS) < 0 && LaptopMode == FALSE) {
+				canvas[39] = colour;
+			}
 		if (GetKeyState(101) < 0)
 		{
 			if (GetKeyState(VK_LMENU) < 0) {
@@ -464,45 +572,47 @@ BOOL My_Chroma_Implementation::example_keyboard() {
 		{
 			canvas[26] = colour;
 		}
-		if (GetKeyState('1') < 0)
-		{
-			canvas[27] = colour;
-		}
-		if (GetKeyState('2') < 0)
-		{
-			canvas[28] = colour;
-		}
-		if (GetKeyState('3') < 0)
-		{
-			canvas[29] = colour;
-		}
-		if (GetKeyState('4') < 0)
-		{
-			canvas[30] = colour;
-		}
-		if (GetKeyState('5') < 0)
-		{
-			canvas[31] = colour;
-		}
-		if (GetKeyState('6') < 0)
-		{
-			canvas[32] = colour;
-		}
-		if (GetKeyState('7') < 0)
-		{
-			canvas[33] = colour;
-		}
-		if (GetKeyState('8') < 0)
-		{
-			canvas[34] = colour;
-		}
-		if (GetKeyState('9') < 0)
-		{
-			canvas[35] = colour;
-		}
-		if (GetKeyState('0') < 0)
-		{
-			canvas[36] = colour;
+		if (LaptopMode == FALSE) {
+			if (GetKeyState('1') < 0)
+			{
+				canvas[27] = colour;
+			}
+			if (GetKeyState('2') < 0)
+			{
+				canvas[28] = colour;
+			}
+			if (GetKeyState('3') < 0)
+			{
+				canvas[29] = colour;
+			}
+			if (GetKeyState('4') < 0)
+			{
+				canvas[30] = colour;
+			}
+			if (GetKeyState('5') < 0)
+			{
+				canvas[31] = colour;
+			}
+			if (GetKeyState('6') < 0)
+			{
+				canvas[32] = colour;
+			}
+			if (GetKeyState('7') < 0)
+			{
+				canvas[33] = colour;
+			}
+			if (GetKeyState('8') < 0)
+			{
+				canvas[34] = colour;
+			}
+			if (GetKeyState('9') < 0)
+			{
+				canvas[35] = colour;
+			}
+			if (GetKeyState('0') < 0)
+			{
+				canvas[36] = colour;
+			}
 		}
 		if (GetKeyState(VK_OEM_4) < 0)
 		{
@@ -511,10 +621,6 @@ BOOL My_Chroma_Implementation::example_keyboard() {
 		if (GetKeyState(VK_OEM_6) < 0)
 		{
 			canvas[38] = colour;
-		}
-		if (GetKeyState(VK_OEM_MINUS) < 0)
-		{
-			canvas[39] = colour;
 		}
 		if (GetKeyState(VK_OEM_PLUS) < 0)
 		{
@@ -547,10 +653,6 @@ BOOL My_Chroma_Implementation::example_keyboard() {
 		if (GetKeyState(VK_OEM_2) < 0)
 		{
 			canvas[47] = colour;
-		}
-		if (GetKeyState(VK_F8) < 0)
-		{
-			colour = NULL;
 		}
 		if (GetKeyState(VK_INSERT) < 0)
 		{
@@ -863,12 +965,13 @@ BOOL My_Chroma_Implementation::example_keyboard() {
 			Sleep(6000);
 			cout << "\nYou can transfer the colour to any key that is lit up white.";
 			Sleep(5000);
-			cout << "\n\nThat's pretty much it for now, if you have any more questions or ideas for the remaining function keys\nyou can message me on discord or contact me on the razer forums. Enjoy!";
+			cout << "\n\nThat's pretty much it for now, if you have any more questions or ideas for the remaining function keys\nyou can message me on discord or contact me on the Razer forums. Enjoy!";
 		}
 		if (GetKeyState(VK_F2) < 0) {
 			cout << "\n\n- 16/08/17    : Version 1.0 Released, can still be found at https://github.com/BigBrobot/Chroma-Paint";
 			cout << "\n\n- 17/08/17    : Version 1.1 Released, colour picker added, moved the paint bucket tool to F5\n                Introduced changelog and help features.";
-			cout << "\n\n- 05/11/2017  : Version 1.2 Released, Introduced the ability to save and load profiles.\n                Fixed the paint tool still painting while using other apps.";
+			cout << "\n\n- 05/11/17    : Version 1.2 Released, Introduced the ability to save and load profiles.\n                Fixed the paint tool still painting while using other apps.";
+			cout << "\n\n- 08/11/17    : Version 1.21 Released, added support for keyboards with no number pad key (assigned to key F8).\n                This enables anyone with any razer keyboard (from tournament edition to full size)\n                to use this program.";
 			Sleep(1000);
 		}
 		if (GetKeyState(VK_F6) < 0) {
@@ -976,6 +1079,7 @@ BOOL My_Chroma_Implementation::example_keyboard() {
 		Example_keyboard_effect_key.Color[HIBYTE(RZKEY_F5)][LOBYTE(RZKEY_F5)] = 0x01000000 | WHITE;
 		Example_keyboard_effect_key.Color[HIBYTE(RZKEY_F6)][LOBYTE(RZKEY_F6)] = 0x01000000 | WHITE;
 		Example_keyboard_effect_key.Color[HIBYTE(RZKEY_F7)][LOBYTE(RZKEY_F7)] = 0x01000000 | WHITE;
+		Example_keyboard_effect_key.Color[HIBYTE(RZKEY_F8)][LOBYTE(RZKEY_F8)] = 0x01000000 | Laptop;
 		Example_keyboard_effect_key.Color[HIBYTE(RZKEY_A)][LOBYTE(RZKEY_A)] = 0x01000000 | canvas[1];
 		Example_keyboard_effect_key.Color[HIBYTE(RZKEY_INSERT)][LOBYTE(RZKEY_INSERT)] = 0x01000000 | RED;
 		Example_keyboard_effect_key.Color[HIBYTE(RZKEY_DELETE)][LOBYTE(RZKEY_DELETE)] = 0x01000000 | RED;

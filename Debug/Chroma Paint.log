@@ -1,0 +1,4 @@
+﻿  Template.cpp
+c:\users\home\desktop\chroma-paint\template.cpp(2): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+c:\users\home\desktop\chroma-paint\template.cpp(1031): error C2664: 'BOOL SetConsoleTitleW(LPCWSTR)': cannot convert argument 1 from 'const char [13]' to 'LPCWSTR'
+  c:\users\home\desktop\chroma-paint\template.cpp(1031): note: Types pointed to are unrelated; conversion requires reinterpret_cast, C-style cast or function-style cast
