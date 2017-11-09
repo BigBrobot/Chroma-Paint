@@ -1160,7 +1160,7 @@ int main() {
 		SetConsoleTextAttribute(hStdOut, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_INTENSITY);
 		cout << "a";		
 		SetConsoleTextAttribute(hStdOut, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
-		cout << " Paint V1.2. For help press F1, for changelog press F2";
+		cout << " Paint V1.21. For help press F1, for changelog press F2";
 
 		
 				while (true) {
